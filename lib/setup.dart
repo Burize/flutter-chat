@@ -36,7 +36,7 @@ class SetupState extends State<Setup> {
   }
 
   _coreInitialized(BuildContext context) {
-    RoutesNavigator.routeToReplacement(context, ERoutes.auth);
+    RoutesNavigator.routeToReplacement(context, ERoutes.chat);
   }
 }
 

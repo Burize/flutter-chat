@@ -1,15 +1,13 @@
-import 'package:flutter_chat/shared/bloc/communication.dart';
-
 import './namespace.dart';
 
-class AuthState implements IAuthState {
-  ICommunication<String> authenticating;
+class ChatState implements IChatState {
+  List<Message> messages;
 
-  AuthState.fromState(AuthState state) {
-    authenticating = state.authenticating;
+  ChatState.fromState(ChatState state) {
+    messages = state.messages;
   }
 
-  AuthState.initial() {
-    authenticating = ICommunication<String>.initial();
+  ChatState.initial() {
+    messages = [];
   }
 }

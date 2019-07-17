@@ -22,6 +22,6 @@ class Api {
   }
 
   String _getApiHost() {
-    return ApiHostConfig.baseApiHost;
+    return ApiHostConfig.apiHost;
   }
 }
