@@ -1,4 +1,4 @@
 class ApiHostConfig {
-  static final apiHost = 'https://api.staging.ptchk.ru';
-  static final socketHost = 'ws://echo.websocket.org';
+  static final apiHost = 'https://localhost:3000';
+  static final socketHost = 'ws://10.0.0.100:3000';
 }

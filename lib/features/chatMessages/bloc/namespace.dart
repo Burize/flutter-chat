@@ -1,19 +1,18 @@
 import '../../../shared/bloc/events.dart';
-
-class Message {
-  String body;
-
-  Message({this.body});
-}
+import 'package:flutter_chat/shared/models/message.dart';
 
 abstract class IChatState {
-  List<Message> messages;
+  List<IChatMessage> messages;
 }
 
 abstract class IChatEvents<P> extends IAction<P> {
   IChatEvents(P payload) : super(payload);
 }
 
-class NewMessage extends IChatEvents<Message> {
-  NewMessage(Message message) : super(message);
+class NewMessage extends IChatEvents<IChatMessage> {
+  NewMessage(IChatMessage message) : super(message);
+}
+
+class NewMessages extends IChatEvents<List<IChatMessage>> {
+  NewMessages(List<IChatMessage> messages) : super(messages);
 }

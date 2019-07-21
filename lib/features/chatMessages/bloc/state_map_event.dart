@@ -10,5 +10,10 @@ class AuthMapEvents extends IMapEvent<ChatState, IChatEvents> {
           yield next..messages.add(e.payload);
           return;
         }
+
+        if (e is NewMessages) {
+          yield next..messages.addAll(e.payload);
+          return;
+        }
       };
 }
