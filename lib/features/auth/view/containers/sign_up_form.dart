@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:flutter_chat/features/auth/bloc/bloc.dart';
 import 'package:flutter_chat/features/auth/bloc/namespace.dart';
 import 'package:flutter_chat/features/auth/bloc/state.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class SignInForm extends StatefulWidget {
+
+class SignUpForm extends StatefulWidget {
   final AuthBloc bloc;
   final TOnAuthenticate onAuthenticate;
-  SignInForm({Key key, @required this.bloc, this.onAuthenticate}) : super(key: key);
-
+  SignUpForm({Key key, @required this.bloc, this.onAuthenticate}) : super(key: key);
   @override
-  createState() => _SignInFormState();
+  createState() => _SignUpFormState();
 }
 
-class _SignInFormState extends State<SignInForm> {
+class _SignUpFormState extends State<SignUpForm> {
   @override
   void initState() {
     super.initState();
@@ -28,7 +27,7 @@ class _SignInFormState extends State<SignInForm> {
     _formKey.currentState.save();
     if (_formKey.currentState.validate()) {
       final values = _formKey.currentState.value;
-      widget.bloc.authenticate(values['phone'], values['password']);
+      widget.bloc.registrate(values['firstName'], values['secondName'], values['phone'], values['password']);
     }
   }
 
@@ -47,8 +46,22 @@ class _SignInFormState extends State<SignInForm> {
           // autovalidate: true,
           child: ListView(children: [
             FormBuilderTextField(
+              attribute: 'firstName',
+              decoration: new InputDecoration(hintText: 'Henry', labelText: 'First name'),
+              validators: [
+                FormBuilderValidators.required(),
+              ],
+            ),
+            FormBuilderTextField(
+              attribute: 'secondName',
+              decoration: new InputDecoration(hintText: 'Dorsett', labelText: 'Second name'),
+              validators: [
+                FormBuilderValidators.required(),
+              ],
+            ),
+            FormBuilderTextField(
               attribute: 'phone',
-              decoration: new InputDecoration(hintText: '+79138133333', labelText: 'Phone number'),
+              decoration: new InputDecoration(hintText: 'Phone number', labelText: '+7 913 813 33 33'),
               validators: [
                 FormBuilderValidators.required(),
               ],
@@ -67,7 +80,7 @@ class _SignInFormState extends State<SignInForm> {
               width: screenSize.width,
               child: new RaisedButton(
                 child: new Text(
-                  'Sign In',
+                  'Login',
                   style: new TextStyle(color: Colors.white),
                 ),
                 onPressed: _onSubmit,
@@ -81,9 +94,7 @@ class _SignInFormState extends State<SignInForm> {
                   BuildContext context,
                   AuthState state,
                 ) {
-                  return Column(
-                    children: [Text(state.authenticating.error.toString())],
-                  );
+                  return Text(state.authenticating.isRequesting.toString());
                 }),
           ])),
     );

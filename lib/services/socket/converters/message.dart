@@ -29,7 +29,7 @@ NewMessageEvent convertNewMessageEvent(Map<String, dynamic> json) {
 IChatMessage convertChatMessage(dynamic json) {
   return IChatMessage(
     id: json['id'],
-    createdAt: json['created_at'],
+    createdAt: json['createdAt'],
     body: json['body'],
     userId: json['userId'],
   );

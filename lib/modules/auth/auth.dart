@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat/core/core.dart';
+import 'package:flutter_chat/core/navigator.dart';
+import 'package:flutter_chat/core/routes.dart';
 import 'package:flutter_chat/features/auth/auth.dart';
 
 class AuthModule extends StatelessWidget {
@@ -19,11 +22,16 @@ class AuthModule extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            _auth.signInForm(),
-            Icon(Icons.directions_bike),
+            _auth.signInForm(onAuthenticate),
+            _auth.signUpForm(onAuthenticate),
           ],
         ),
       ),
     );
+  }
+
+  void onAuthenticate(BuildContext context) async {
+    await Core.initializeLazyServices();
+    RoutesNavigator.routeToReplacement(context, ERoutes.chat);
   }
 }

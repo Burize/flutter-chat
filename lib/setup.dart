@@ -36,7 +36,19 @@ class SetupState extends State<Setup> {
   }
 
   _coreInitialized(BuildContext context) {
-    RoutesNavigator.routeToReplacement(context, ERoutes.chat);
+    _checkUserAuth();
+  }
+
+  void _checkUserAuth() async {
+    final externals = Externals();
+    final isAuthenticated = await externals.checkAuth();
+
+    if (isAuthenticated) {
+      await Core.initializeLazyServices();
+      RoutesNavigator.routeToReplacement(context, ERoutes.chat);
+    } else {
+      RoutesNavigator.routeToReplacement(context, ERoutes.auth);
+    }
   }
 }
 
@@ -48,6 +60,6 @@ class Externals {
   }
 
   Future<bool> checkAuth() async {
-    return await _auth.checkAuth();
+    return _auth.checkAuth();
   }
 }

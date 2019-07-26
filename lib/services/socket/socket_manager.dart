@@ -16,6 +16,7 @@ class SocketManager {
   List<IMessageEvent> get messages => _messages;
 
   SocketManager() {
+    // TODO: not connect when authorizing
     _channel = IOWebSocketChannel.connect(_getSocketHost());
     _channel.stream.listen(_onReceiveMessage);
   }

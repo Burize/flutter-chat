@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_chat/core/dependency.dart';
 import 'package:flutter_chat/features/chatMessages/bloc/bloc.dart';
 import 'package:flutter_chat/features/chatMessages/bloc/namespace.dart';
 import 'package:flutter_chat/features/chatMessages/bloc/state.dart';
 import 'package:flutter_chat/features/chatMessages/view/components/chat_message.dart';
 import 'package:flutter_chat/features/chatMessages/view/components/message_input.dart';
+import 'package:flutter_chat/services/user/user_manager.dart';
 
 class MessagesList extends StatefulWidget {
   final ChatBloc bloc;
@@ -17,6 +19,7 @@ class MessagesList extends StatefulWidget {
 class _MessageListState extends State<MessagesList> {
   @override
   Widget build(BuildContext context) {
+    final userManager = DI.get<UserManager>();
     return Container(
         padding: EdgeInsets.all(20),
         child: Column(children: <Widget>[
@@ -34,7 +37,16 @@ class _MessageListState extends State<MessagesList> {
                     itemCount: state.messages.length,
                     itemBuilder: (context, index) {
                       final message = state.messages[index];
-                      return ChatMessage(message: message.body, isOwnMessage: message.userId == '2');
+                      final messageUser = state.members.firstWhere(
+                        (user) => user.id == message.userId,
+                        orElse: () => unknownMember,
+                      );
+                      return ChatMessage(
+                        message: message.body,
+                        userName: messageUser.name,
+                        isOwnMessage: message.userId == userManager.user.id,
+                        createdAt: message.createdAt,
+                      );
                     },
                   ),
                 );

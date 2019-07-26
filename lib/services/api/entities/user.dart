@@ -1,5 +1,7 @@
+import 'package:flutter_chat/services/api/converters/user.dart';
+import 'package:flutter_chat/shared/models/user.dart' as UserModel;
+
 import '../http_actions.dart';
-import '../models/user.dart' as CityModel;
 import './base_api.dart';
 // import '../converters/city.dart';
 
@@ -9,16 +11,23 @@ class User extends BaseApi {
     _httpActions = httpActions;
   }
 
-  Future<List<CityModel.City>> authenticate() async {
-    // final response = await _httpActions.get(IMethodArgs(
-    //   url: '/cities/',
-    //   isUseCoreApi: true,
-    // ));
+  Future<UserModel.User> authenticate(String phone, String password) async {
+    final response = await _httpActions.post(IMethodArgs(
+      url: '/auth',
+      data: convertAuthFieldsToResponse(phone, password),
+    ));
 
-    await Future.delayed(Duration(milliseconds: 1500));
+    throwExceptionIfInvalidStatusCode(response);
+    return convertUserFromResponse(response.body);
+  }
 
-    // throwExceptionIfInvalidStatusCode(response);
-    // final cities = convertCities(response.body);
-    return null;
+  Future<UserModel.User> registration(UserModel.IMainUserFields user) async {
+    final response = await _httpActions.post(IMethodArgs(
+      url: '/user/',
+      data: convertUserToResponse(user),
+    ));
+
+    throwExceptionIfInvalidStatusCode(response);
+    return convertUserFromResponse(response.body);
   }
 }

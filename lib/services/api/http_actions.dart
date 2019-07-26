@@ -38,14 +38,12 @@ class HttpActions {
   Future<IRequest> _makeRequest<R>(String method, IMethodArgs args) async {
     final resGetBaseUrl = _options.getApiHost();
 
-    final resHeaders = Map<String, String>.from(
-        args.headers != null ? args.headers : Map<String, String>())
+    final resHeaders = Map<String, String>.from(args.headers != null ? args.headers : Map<String, String>())
       ..addAll(_options.headers);
 
     final body = args.data != null ? jsonEncode(args.data) : '';
 
-    return IRequest(
-        body: body, url: resGetBaseUrl + args.url, headers: resHeaders);
+    return IRequest(body: body, url: resGetBaseUrl + args.url, headers: resHeaders);
   }
 }
 
@@ -82,14 +80,8 @@ class IMethodArgs {
   final Map<String, dynamic> data;
   final Map<String, String> headers;
   final bool isSigned;
-  final bool isUseCoreApi;
 
-  IMethodArgs(
-      {this.url = '',
-      this.data,
-      this.headers = const {},
-      this.isSigned = false,
-      this.isUseCoreApi = false});
+  IMethodArgs({this.url = '', this.data, this.headers = const {}, this.isSigned = false});
 }
 
 class Response {
@@ -97,8 +89,7 @@ class Response {
   String body;
   Map<String, String> headers;
 
-  Response(
-      {@required this.headers, @required this.body, @required this.statusCode});
+  Response({@required this.headers, @required this.body, @required this.statusCode});
 
   Response.fromHttpResponse(http.Response response) {
     headers = response.headers;
