@@ -1,8 +1,9 @@
-import 'package:flutter_chat/shared/models/message.dart';
+import '../../shared/models/message.dart';
 
 enum EMessageType {
   allMessages,
   newMessage,
+  sendedMessage,
 }
 
 abstract class IMessageEvent {
@@ -21,4 +22,11 @@ class NewMessageEvent extends IMessageEvent {
   final IChatMessage message;
 
   NewMessageEvent({this.message});
+}
+
+class SendedMessageEvent extends IMessageEvent {
+  final EMessageType eventType = EMessageType.sendedMessage;
+  final IChatMessage message;
+
+  SendedMessageEvent({this.message});
 }

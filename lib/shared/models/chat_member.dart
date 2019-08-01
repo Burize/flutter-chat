@@ -1,4 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../utils/api_path.dart';
+
 part 'chat_member.g.dart';
 
 @JsonSerializable(createFactory: true)
@@ -8,15 +13,18 @@ class ChatMember {
   final String secondName;
   final String avatar;
 
-  String get name {
-    if (firstName == null && secondName == null) {
-      return 'unknown user';
+  String get name => '$firstName $secondName';
+  String get acronym => '${firstName[0]} ${secondName[0]}'.toUpperCase();
+
+  ChatMember({@required this.id, @required this.firstName, @required this.secondName, this.avatar});
+
+  ImageProvider getAvatar() {
+    if (avatar == null) {
+      throw 'try getAvatar on user that has not it';
     }
 
-    return '${firstName ?? ''} ${secondName ?? ''}';
+    return CachedNetworkImageProvider(makeUserAvatarPath(avatar));
   }
-
-  ChatMember({this.id, this.firstName, this.secondName, this.avatar});
 
   Map<String, dynamic> toJson() => _$ChatMemberToJson(this);
 

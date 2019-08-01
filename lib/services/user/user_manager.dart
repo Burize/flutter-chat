@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/services/api/api.dart';
-import 'package:flutter_chat/services/storage/storage.dart';
-import 'package:flutter_chat/shared/models/user.dart'; // TODO: MAKE CONTRACT
+
+import '../../shared/models/user.dart';
+import '../api/api.dart';
+import '../storage/storage.dart';
 
 class UserManager {
   final Storage _storage;
@@ -32,12 +33,17 @@ class UserManager {
   }
 
   saveUser(User user) async {
+    _user = user;
     await _storage.saveUser(user);
   }
-  // Future<User> loadUser() async {
-  //   User user = await _api.user.loadUser();
-  //  //  await _saveUser(user);
-  //   return user;
-  // }
 
+  Future<void> updateUser() async {
+    if (_user == null) {
+      throw Exception('Try update nonexistent user');
+    }
+
+    User lastUser = await _api.user.loadUser(_user.id);
+    await saveUser(lastUser);
+    _user = lastUser;
+  }
 }

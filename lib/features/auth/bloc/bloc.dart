@@ -1,57 +1,73 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_chat/services/user/user_manager.dart';
-import 'package:flutter_chat/shared/models/user.dart';
-
-import '../../../core/dependency.dart';
-import '../../../shared/bloc/events.dart';
-import '../../../services/api/api.dart';
+import 'dart:async';
 
 import './namespace.dart';
 import './state.dart';
 import './state_map_event.dart';
-
-typedef void TOnAuthenticateSuccess();
+import '../../../core/core.dart';
+import '../../../core/dependency.dart';
+import '../../../services/api/api.dart';
+import '../../../services/api/errors/errors.dart';
+import '../../../services/storage/storage.dart';
+import '../../../services/user/user_manager.dart';
+import '../../../shared/bloc/events.dart';
+import '../../../shared/models/user.dart';
 
 class AuthBloc extends IFeatureBloc<IAuthEvents, AuthState, AuthMapEvents> {
-  TOnAuthenticateSuccess onAuthenticate;
-
   final AuthState _initialState = AuthState.initial();
   AuthState get initialState => _initialState;
 
   final AuthMapEvents _mapEvent = AuthMapEvents();
   AuthMapEvents get mapEvent => _mapEvent;
 
-  BuildContext replacementContext;
-
   Future<bool> checkAuth() async {
     final userManager = DI.get<UserManager>();
     return userManager.checkUserIsAuth();
   }
 
-  Future<void> authenticate(String phone, String password) async {
+  Future<bool> authenticate(String phone, String password) async {
     try {
       dispatch(Authenticate());
       final api = DI.get<Api>();
       final user = await api.user.authenticate(phone, password);
-      final userManager = DI.get<UserManager>();
-      await userManager.authorize();
-      await userManager.saveUser(user);
+      await _saveUser(user);
       dispatch(AuthenticateSuccess());
-      onAuthenticate();
+      return true;
     } catch (e) {
-      dispatch(AuthenticateFail(e.msg));
+      dispatch(AuthenticateFail(e is ApiError ? e.message : e.toString()));
+      return false;
     }
   }
 
-  Future<void> registrate(String firstName, String secondName, String phone, String password) async {
+  Future<bool> registrate(String firstName, String secondName, String phone, String password) async {
     try {
       dispatch(Registrate());
       final api = DI.get<Api>();
-      final user = await api.user.registration(
-          IMainUserFields(firstName: firstName, secondName: secondName, phone: phone, password: password));
+      final user = await api.user.registration(IMainUserFields(
+        firstName: firstName,
+        secondName: secondName,
+        phone: phone,
+        password: password,
+      ));
+
+      await _saveUser(user);
       dispatch(RegistrateSuccess());
+      return true;
     } catch (e) {
-      dispatch(RegistrateFail(e.msg));
+      dispatch(RegistrateFail(e is ApiError ? e.message : e.toString()));
+      return false;
     }
+  }
+
+  Future<void> _saveUser(User user) async {
+    final userManager = DI.get<UserManager>();
+    await userManager.authorize();
+    await userManager.saveUser(user);
+  }
+
+  Future<void> logout() async {
+    Storage storage = DI.get<Storage>();
+    await storage.removeUser();
+    await storage.removeIsAuthotized();
+    await Core.clearDependencies();
   }
 }

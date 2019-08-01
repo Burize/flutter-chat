@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import './core/core.dart';
 import './core/dependency.dart';
-import 'core/navigator.dart';
-import 'core/routes.dart';
+import 'core/navigation/navigator.dart';
+import 'core/navigation/routes.dart';
+import 'services/user/user_manager.dart';
 
 abstract class ISetupAuthContract {
   Future<bool> checkAuth();
@@ -45,9 +46,20 @@ class SetupState extends State<Setup> {
 
     if (isAuthenticated) {
       await Core.initializeLazyServices();
-      RoutesNavigator.routeToReplacement(context, ERoutes.chat);
+      RoutesNavigator.routeToReplacement(context, Routes.chat.chatMessages);
+      _tryUpdateUser();
     } else {
-      RoutesNavigator.routeToReplacement(context, ERoutes.auth);
+      RoutesNavigator.routeToReplacement(context, Routes.auth.authenticate);
+    }
+  }
+
+  void _tryUpdateUser() async {
+    try {
+      final userManager = DI.get<UserManager>();
+      await userManager.updateUser();
+    } catch (e) {
+      // when offline there is network error, but app is not need to react to it
+      print(e.toString());
     }
   }
 }

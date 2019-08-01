@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/shared/view/components/empty.dart';
+
+import '../../../../shared/view/components/empty.dart';
 
 class ChatMessage extends StatelessWidget {
   final String message;
   final String userName;
+  final String userAcronym;
   final int createdAt;
+  final ImageProvider avatar;
   final bool isOwnMessage;
-  ChatMessage({this.message, this.isOwnMessage, this.userName, this.createdAt});
+
+  ChatMessage({this.message, this.isOwnMessage, this.userName, this.userAcronym, this.createdAt, this.avatar});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,7 @@ class ChatMessage extends StatelessWidget {
               ? CircleAvatar(
                   backgroundColor: Color.fromRGBO(0, 0, 0, 0),
                 )
-              : CircleAvatar(child: Text('DK')),
+              : getMemberAvatar(),
           Card(
             child: Padding(
               padding: EdgeInsets.all(8),
@@ -44,5 +48,9 @@ class ChatMessage extends StatelessWidget {
             ),
           )
         ]);
+  }
+
+  Widget getMemberAvatar() {
+    return avatar != null ? CircleAvatar(backgroundImage: avatar) : CircleAvatar(child: Text(userAcronym));
   }
 }

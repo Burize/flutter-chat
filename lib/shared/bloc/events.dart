@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:rxdart/rxdart.dart';
 
 abstract class IAction<P> {
   P payload;
@@ -8,15 +9,21 @@ abstract class IAction<P> {
   }
 }
 
-abstract class IFeatureBloc<E, S, M extends IMapEvent<S, E>>
-    extends Bloc<E, S> {
+abstract class IFeatureBloc<E, S, M extends IMapEvent<S, E>> extends Bloc<E, S> {
   S get initialState;
   M get mapEvent;
+  // void handleEvent(E event);
   BuildContext context;
 
+  final PublishSubject<E> events = PublishSubject<E>();
+
   @override
-  Stream<S> mapEventToState(E e) =>
-      mapEvent != null ? mapEvent.mapEvent(currentState, e) : null;
+  void onEvent(E event) {
+    events.add(event);
+  }
+
+  @override
+  Stream<S> mapEventToState(E e) => mapEvent != null ? mapEvent.mapEvent(currentState, e) : null;
 }
 
 typedef void TDispatch<E>(E event);
@@ -36,15 +43,3 @@ abstract class IMapEvent<S, E> {
 }
 
 typedef void TUpdateStateMethod<S>(S state);
-
-// class BlocListener<B extends Bloc, S> {
-//   B bloc;
-//   BlocListener(B bloc, [TUpdateStateMethod<S> updateStateMethod]) {
-//     this.bloc = bloc;
-//     (this.bloc.state as Stream<S>).listen((S state) {
-//       if (updateStateMethod != null) {
-//         updateStateMethod(state);
-//       }
-//     });
-//   }
-// }

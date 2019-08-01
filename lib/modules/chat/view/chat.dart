@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/core/routes.dart';
-import 'package:flutter_chat/features/chatMessages/chatMessages.dart';
 
-class ChatModule extends StatelessWidget {
+import '../../../core/navigation/makeMainDrawer.dart';
+import '../../../features/chatMessages/chatMessages.dart';
+
+class ChatMessagesView extends StatelessWidget {
   final ChatMessages _chatMessages = ChatMessages();
   @override
   build(BuildContext context) {

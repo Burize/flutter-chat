@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/core/core.dart';
-import 'package:flutter_chat/core/navigator.dart';
-import 'package:flutter_chat/core/routes.dart';
-import 'package:flutter_chat/features/auth/auth.dart';
 
-class AuthModule extends StatelessWidget {
+import '../../../core/core.dart';
+import '../../../core/navigation/navigator.dart';
+import '../../../core/navigation/routes.dart';
+import '../../../features/auth/auth.dart';
+
+class AuthenticateView extends StatelessWidget {
   final Auth _auth = Auth();
   @override
   build(BuildContext context) {
@@ -22,16 +23,16 @@ class AuthModule extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            _auth.signInForm(onAuthenticate),
-            _auth.signUpForm(onAuthenticate),
+            _auth.signInForm(initializeDeps),
+            _auth.signUpForm(initializeDeps),
           ],
         ),
       ),
     );
   }
 
-  void onAuthenticate(BuildContext context) async {
+  void initializeDeps(BuildContext context) async {
     await Core.initializeLazyServices();
-    RoutesNavigator.routeToReplacement(context, ERoutes.chat);
+    RoutesNavigator.routeToReplacement(context, Routes.chat.chatMessages);
   }
 }

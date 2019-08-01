@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_chat/shared/models/message.dart';
-
+import '../../../shared/models/message.dart';
 import '../namespace.dart';
 
 IMessageEvent convertMessageEvent(String data) {
@@ -12,6 +11,7 @@ IMessageEvent convertMessageEvent(String data) {
   final Map<EMessageType, Function> converterByEventType = {
     EMessageType.allMessages: convertChatMessageList,
     EMessageType.newMessage: convertNewMessageEvent,
+    EMessageType.sendedMessage: convertNewMessageEvent,
   };
 
   return converterByEventType[messageType](json['payload']);
@@ -24,6 +24,10 @@ AllMessagesEvent convertChatMessageList(List<dynamic> json) {
 
 NewMessageEvent convertNewMessageEvent(Map<String, dynamic> json) {
   return NewMessageEvent(message: convertChatMessage(json));
+}
+
+SendedMessageEvent convertSendedMessageEvent(Map<String, dynamic> json) {
+  return SendedMessageEvent(message: convertChatMessage(json));
 }
 
 IChatMessage convertChatMessage(dynamic json) {
@@ -39,6 +43,7 @@ EMessageType convertMessageType(String type) {
   Map<String, EMessageType> map = {
     'all_messages': EMessageType.allMessages,
     'new_message': EMessageType.newMessage,
+    'sended_message': EMessageType.sendedMessage,
   };
 
   final messageType = map[type];

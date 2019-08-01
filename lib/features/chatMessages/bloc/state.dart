@@ -1,9 +1,8 @@
-import 'package:flutter_chat/shared/models/chat_member.dart';
-import 'package:flutter_chat/shared/models/message.dart';
-
 import './namespace.dart';
+import '../../../shared/models/chat_member.dart';
+import '../../../shared/models/message.dart';
 
-final unknownMember = ChatMember(id: '-1');
+final unknownMember = ChatMember(id: '-1', firstName: 'unknown', secondName: 'user');
 
 final messageMocks = [
   IChatMessage(body: 'ok', createdAt: 1563625091653, id: '1', userId: '5d35bdec5f7e86c804e4fe68'),

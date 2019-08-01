@@ -1,16 +1,15 @@
-import 'package:flutter_chat/services/api/api.dart';
-import 'package:flutter_chat/services/socket/namespace.dart';
-
 import './externals.dart';
 import './namespace.dart';
 import './state.dart';
 import './state_map_event.dart';
-
 import '../../../core/dependency.dart';
+import '../../../services/api/api.dart';
+import '../../../services/socket/namespace.dart';
+import '../../../services/user/user_manager.dart';
 import '../../../shared/bloc/events.dart';
 import '../../../shared/models/message.dart';
 
-class ChatBloc extends IFeatureBloc<IChatEvents, ChatState, AuthMapEvents> {
+class ChatBloc extends IFeatureBloc<IChatEvent, ChatState, AuthMapEvents> {
   final ChatState _initialState = ChatState.initial();
   ChatState get initialState => _initialState;
 
@@ -21,19 +20,23 @@ class ChatBloc extends IFeatureBloc<IChatEvents, ChatState, AuthMapEvents> {
 
   ChatBloc() {
     messageManager = DI.get<IChatMessageManagerContract>();
-    messageManager.subscribe(_onNewMessage);
+    messageManager.subscribe(_onReceiveMessage);
   }
 
-  Future<void> _onNewMessage(IMessageEvent event) async {
+  Future<void> _onReceiveMessage(IMessageEvent event) async {
     if (event is AllMessagesEvent) {
       final memberIds = event.messages.map((message) => message.userId).toSet().toList();
-      await loadMembers(memberIds); // TODO: handle fail
+      await loadMembers(memberIds);
       dispatch(NewMessages(event.messages));
     }
 
     if (event is NewMessageEvent) {
       await loadMembers([event.message.userId]);
       dispatch(NewMessage(event.message));
+    }
+
+    if (event is SendedMessageEvent) {
+      dispatch(SendedMessage(event.message));
     }
   }
 
@@ -49,12 +52,13 @@ class ChatBloc extends IFeatureBloc<IChatEvents, ChatState, AuthMapEvents> {
   }
 
   sendMessage(String messageBody) {
+    final userManager = DI.get<UserManager>();
     final message = IChatMessage(
       body: messageBody,
-      id: 'messageId',
-      userId: 'ownId',
+      userId: userManager.user.id,
       createdAt: new DateTime.now().millisecondsSinceEpoch,
     );
+
     messageManager.sendMessage(message);
   }
 }

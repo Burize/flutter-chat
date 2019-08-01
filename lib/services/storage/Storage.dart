@@ -1,11 +1,15 @@
 import 'dart:convert';
 
-import 'package:flutter_chat/shared/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../shared/models/user.dart';
 
 typedef T TReadyStorageCallback<T>();
 
-final keys = {'user': 'user', 'isAuthorized': 'auth.isAuthorized'};
+final keys = {
+  'user': 'user',
+  'isAuthorized': 'auth.isAuthorized',
+};
 
 class Storage {
   SharedPreferences _storage;
@@ -46,5 +50,10 @@ class Storage {
     await _initializing;
     final isAuthorized = _storage.getBool(keys['isAuthorized']);
     return isAuthorized ?? false;
+  }
+
+  Future<void> removeUser() async {
+    await _initializing;
+    await _storage.remove(keys['user']);
   }
 }

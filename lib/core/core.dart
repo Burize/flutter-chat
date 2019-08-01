@@ -1,17 +1,16 @@
-import 'package:flutter_chat/core/contracts/message_manager_contract.dart';
-import 'package:flutter_chat/features/chatMessages/bloc/bloc.dart';
-import 'package:flutter_chat/features/chatMessages/bloc/externals.dart';
-import 'package:flutter_chat/services/socket/socket_manager.dart';
-import 'package:flutter_chat/services/storage/storage.dart';
-import 'package:flutter_chat/services/user/user_manager.dart';
-
-import '../features/auth/bloc/bloc.dart';
-
-import '../services/api/api.dart';
-
-import '../setup.dart';
 import './dependency.dart';
+import '../features/auth/bloc/bloc.dart';
+import '../features/chatMessages/bloc/bloc.dart';
+import '../features/chatMessages/bloc/externals.dart';
+import '../features/profileOverview/bloc/bloc.dart';
+import '../modules/profile/view/profile.dart';
+import '../services/api/api.dart';
+import '../services/socket/socket_manager.dart';
+import '../services/storage/storage.dart';
+import '../services/user/user_manager.dart';
+import '../setup.dart';
 import 'contracts/auth_contract.dart';
+import 'contracts/message_manager_contract.dart';
 
 class Core {
   static bool _isDependenciesLoaded = false;
@@ -25,6 +24,9 @@ class Core {
   static Future<void> _makeDependenciesInjector() async {
     DI.makeDependency<AuthBloc>(() => AuthBloc());
     DI.makeDependency<ISetupAuthContract>(() => AuthContract());
+    DI.makeDependency<ILogoutAuthContract>(() => AuthContract());
+
+    DI.makeDependency<ProfileOverviewBloc>(() => ProfileOverviewBloc());
 
     DI.makeDependency<SocketManager>(() => SocketManager());
     DI.makeDependency<IChatMessageManagerContract>(() => MessageManagerContract());
@@ -40,5 +42,9 @@ class Core {
     final userManager = DI.get<UserManager>();
 
     await userManager.initialize();
+  }
+
+  static Future<void> clearDependencies() async {
+    return DI.clearDeps();
   }
 }

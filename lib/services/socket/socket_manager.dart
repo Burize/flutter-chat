@@ -1,7 +1,7 @@
-import 'package:flutter_chat/core/config/api_host_config.dart';
-import 'package:flutter_chat/shared/models/message.dart';
 import 'package:web_socket_channel/io.dart';
 
+import '../../core/config/api_host_config.dart';
+import '../../shared/models/message.dart';
 import 'converters/message.dart';
 import 'namespace.dart';
 
@@ -16,7 +16,6 @@ class SocketManager {
   List<IMessageEvent> get messages => _messages;
 
   SocketManager() {
-    // TODO: not connect when authorizing
     _channel = IOWebSocketChannel.connect(_getSocketHost());
     _channel.stream.listen(_onReceiveMessage);
   }

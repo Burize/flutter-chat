@@ -1,12 +1,14 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_chat/shared/bloc/communication.dart';
 
+import '../../../shared/bloc/communication.dart';
 import '../../../shared/bloc/events.dart';
 
 typedef void TOnAuthenticate(BuildContext context);
+typedef void TOnRegistrate(BuildContext context);
 
 abstract class IAuthState {
   ICommunication<String> authenticating;
+  ICommunication<String> registrating;
 }
 
 abstract class IAuthEvents<P> extends IAction<P> {

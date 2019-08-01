@@ -1,5 +1,5 @@
-import 'package:flutter_chat/services/socket/namespace.dart';
-import 'package:flutter_chat/shared/models/message.dart'; // TODO: import from more top level
+import '../../../services/socket/namespace.dart';
+import '../../../shared/models/message.dart';
 
 typedef void TSubscription(IMessageEvent message);
 typedef void TUnsubscribe();

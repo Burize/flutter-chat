@@ -14,10 +14,10 @@ class Auth {
   }
 
   Widget signInForm(TOnAuthenticate onAuthenticate) {
-    return SignInForm(bloc: _bloc);
+    return SignInForm(bloc: _bloc, onAuthenticate: onAuthenticate);
   }
 
-  Widget signUpForm(TOnAuthenticate onAuthenticate) {
-    return SignUpForm(bloc: _bloc);
+  Widget signUpForm(TOnRegistrate onRegistrate) {
+    return SignUpForm(bloc: _bloc, onRegistrate: onRegistrate);
   }
 }

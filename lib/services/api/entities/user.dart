@@ -1,9 +1,8 @@
-import 'package:flutter_chat/services/api/converters/user.dart';
 import 'package:flutter_chat/shared/models/user.dart' as UserModel;
 
-import '../http_actions.dart';
 import './base_api.dart';
-// import '../converters/city.dart';
+import '../converters/user.dart';
+import '../http_actions.dart';
 
 class User extends BaseApi {
   HttpActions _httpActions;
@@ -29,5 +28,35 @@ class User extends BaseApi {
 
     throwExceptionIfInvalidStatusCode(response);
     return convertUserFromResponse(response.body);
+  }
+
+  Future<UserModel.User> loadUser(String userId) async {
+    final response = await _httpActions.get(IMethodArgs(
+      url: '/user/$userId', // TODO MAKE VIA TOKEN
+    ));
+
+    throwExceptionIfInvalidStatusCode(response);
+    return convertUserFromResponse(response.body);
+  }
+
+  Future<UserModel.User> updateUser(String userId, {String firstName, String secondName, String phone}) async {
+    final response = await _httpActions.patch(IMethodArgs(
+      url: '/user/$userId', // TODO MAKE VIA TOKEN,
+      data: convertUpdateUserToResponse(firstName: firstName, secondName: secondName, phone: phone),
+    ));
+
+    throwExceptionIfInvalidStatusCode(response);
+    return convertUserFromResponse(response.body);
+  }
+
+  Future<String> updateUserAvatar(String userId, String avatar) async {
+    final response = await _httpActions.patch(IMethodArgs(
+      url: '/user/avatar/$userId', // TODO MAKE VIA TOKEN,
+      data: {'avatar': avatar},
+    ));
+
+    throwExceptionIfInvalidStatusCode(response);
+
+    return convertUserAvatarFromResponse(response.body);
   }
 }

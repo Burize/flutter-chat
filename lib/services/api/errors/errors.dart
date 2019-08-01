@@ -1,9 +1,8 @@
-class ApiError extends HandleableException {
-  ApiError({int statusCode, String message})
-      : super('ApiError: {status: $statusCode, message: $message}');
-}
+class ApiError implements Exception {
+  final int statusCode;
+  final String message;
 
-class HandleableException implements Exception {
-  final String msg;
-  HandleableException([this.msg]);
+  ApiError({this.statusCode, this.message});
+
+  toString() => 'Api error: status($statusCode) message($message)';
 }

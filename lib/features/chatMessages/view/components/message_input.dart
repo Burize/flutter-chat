@@ -36,5 +36,6 @@ class _MessageInputState extends State<MessageInput> {
   onSubmit() {
     FocusScope.of(context).requestFocus(new FocusNode());
     widget.onSubmit(inputController.text);
+    inputController.clear();
   }
 }
