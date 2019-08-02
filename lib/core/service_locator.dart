@@ -1,9 +1,10 @@
-import 'package:flutter_chat/shared/utils/types.dart';
 import 'package:flutter_simple_dependency_injection/injector.dart';
+
+import '../shared/utils/types.dart';
 
 typedef T TConstructorMethod<T>();
 
-class DI {
+class SL {
   static Injector _injector = Injector.getInjector('Deps');
   static List<Dependency> _deps = [];
 
@@ -31,14 +32,12 @@ class DI {
 
     for (final dep in _deps) {
       if (dep.type == T) {
-        _injector.map<T>((i) => dep.constructor(),
-            isSingleton: dep.isSingleton);
+        _injector.map<T>((i) => dep.constructor(), isSingleton: dep.isSingleton);
         return _injector.get<T>();
       }
     }
 
-    throw InjectorException(
-        "Can\'t find dependency and constructor from type: ${typeOf<T>()}");
+    throw InjectorException("Can\'t find dependency and constructor from type: ${typeOf<T>()}");
   }
 }
 

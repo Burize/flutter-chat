@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../core/dependency.dart';
+import '../../../../core/service_locator.dart';
 import '../../../../core/navigation/navigator.dart';
 import '../../../../services/user/user_manager.dart';
 import '../../../../shared/models/user.dart';
@@ -29,7 +29,7 @@ class AccountView extends StatefulWidget {
 class _AccountViewState extends State<AccountView> {
   @override
   Widget build(BuildContext context) {
-    final userManager = DI.get<UserManager>();
+    final userManager = SL.get<UserManager>();
     final user = userManager.user;
     return BlocBuilder<IProfileEvents, ProfileState>(
         bloc: widget.bloc,
@@ -64,7 +64,7 @@ class _AccountViewState extends State<AccountView> {
   }
 
   onEditAccount(EAccountEditedFiled field) {
-    final userManager = DI.get<UserManager>();
+    final userManager = SL.get<UserManager>();
     final user = userManager.user;
     final formKey = GlobalKey<FormBuilderState>();
 

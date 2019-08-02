@@ -1,4 +1,4 @@
-import './dependency.dart';
+import './service_locator.dart';
 import '../features/auth/bloc/bloc.dart';
 import '../features/chatMessages/bloc/bloc.dart';
 import '../features/chatMessages/bloc/externals.dart';
@@ -22,29 +22,29 @@ class Core {
   }
 
   static Future<void> _makeDependenciesInjector() async {
-    DI.makeDependency<AuthBloc>(() => AuthBloc());
-    DI.makeDependency<ISetupAuthContract>(() => AuthContract());
-    DI.makeDependency<ILogoutAuthContract>(() => AuthContract());
+    SL.makeDependency<AuthBloc>(() => AuthBloc());
+    SL.makeDependency<ISetupAuthContract>(() => AuthContract());
+    SL.makeDependency<ILogoutAuthContract>(() => AuthContract());
 
-    DI.makeDependency<ProfileOverviewBloc>(() => ProfileOverviewBloc());
+    SL.makeDependency<ProfileOverviewBloc>(() => ProfileOverviewBloc());
 
-    DI.makeDependency<SocketManager>(() => SocketManager());
-    DI.makeDependency<IChatMessageManagerContract>(() => MessageManagerContract());
-    DI.makeDependency<ChatBloc>(() => ChatBloc());
+    SL.makeDependency<SocketManager>(() => SocketManager());
+    SL.makeDependency<IChatMessageManagerContract>(() => MessageManagerContract());
+    SL.makeDependency<ChatBloc>(() => ChatBloc());
 
-    DI.makeDependency<Api>(() => Api());
-    DI.makeDependency<Storage>(() => Storage());
+    SL.makeDependency<Api>(() => Api());
+    SL.makeDependency<Storage>(() => Storage());
 
-    DI.makeDependency<UserManager>(() => UserManager(storage: DI.get<Storage>(), api: DI.get<Api>()));
+    SL.makeDependency<UserManager>(() => UserManager(storage: SL.get<Storage>(), api: SL.get<Api>()));
   }
 
   static Future<void> initializeLazyServices() async {
-    final userManager = DI.get<UserManager>();
+    final userManager = SL.get<UserManager>();
 
     await userManager.initialize();
   }
 
   static Future<void> clearDependencies() async {
-    return DI.clearDeps();
+    return SL.clearDeps();
   }
 }

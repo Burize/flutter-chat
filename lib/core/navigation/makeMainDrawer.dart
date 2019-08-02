@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../services/user/user_manager.dart';
 import '../../shared/view/components/user_profile.dart';
-import '../dependency.dart';
+import '../service_locator.dart';
 import 'navigator.dart';
 import 'routes.dart';
 
 Drawer makeMainDrawer(BuildContext context, int activeItemIndex) {
-  final userManager = DI.get<UserManager>();
+  final userManager = SL.get<UserManager>();
   final userProfile = UserProfile(
     user: userManager.user,
   );

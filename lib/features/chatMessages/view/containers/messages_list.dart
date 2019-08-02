@@ -2,7 +2,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/dependency.dart';
+import '../../../../core/service_locator.dart';
 import '../../../../services/user/user_manager.dart';
 import '../../bloc/bloc.dart';
 import '../../bloc/namespace.dart';
@@ -44,7 +44,7 @@ class _MessageListState extends State<MessagesList> {
 
   @override
   Widget build(BuildContext context) {
-    final userManager = DI.get<UserManager>();
+    final userManager = SL.get<UserManager>();
     return Container(
         padding: EdgeInsets.all(20),
         child: Column(children: <Widget>[

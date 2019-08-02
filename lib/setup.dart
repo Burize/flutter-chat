@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './core/core.dart';
-import './core/dependency.dart';
+import './core/service_locator.dart';
 import 'core/navigation/navigator.dart';
 import 'core/navigation/routes.dart';
 import 'services/user/user_manager.dart';
@@ -55,7 +55,7 @@ class SetupState extends State<Setup> {
 
   void _tryUpdateUser() async {
     try {
-      final userManager = DI.get<UserManager>();
+      final userManager = SL.get<UserManager>();
       await userManager.updateUser();
     } catch (e) {
       // when offline there is network error, but app is not need to react to it
@@ -68,7 +68,7 @@ class Externals {
   ISetupAuthContract _auth;
 
   Externals() {
-    _auth = DI.get<ISetupAuthContract>();
+    _auth = SL.get<ISetupAuthContract>();
   }
 
   Future<bool> checkAuth() async {

@@ -2,7 +2,7 @@ import './externals.dart';
 import './namespace.dart';
 import './state.dart';
 import './state_map_event.dart';
-import '../../../core/dependency.dart';
+import '../../../core/service_locator.dart';
 import '../../../services/api/api.dart';
 import '../../../services/socket/namespace.dart';
 import '../../../services/user/user_manager.dart';
@@ -19,7 +19,7 @@ class ChatBloc extends IFeatureBloc<IChatEvent, ChatState, AuthMapEvents> {
   IChatMessageManagerContract messageManager;
 
   ChatBloc() {
-    messageManager = DI.get<IChatMessageManagerContract>();
+    messageManager = SL.get<IChatMessageManagerContract>();
     messageManager.subscribe(_onReceiveMessage);
   }
 
@@ -43,7 +43,7 @@ class ChatBloc extends IFeatureBloc<IChatEvent, ChatState, AuthMapEvents> {
   Future<void> loadMembers(List<String> ids) async {
     try {
       dispatch(LoadMembers());
-      final api = DI.get<Api>();
+      final api = SL.get<Api>();
       final users = await api.chatMember.loadUsers(ids);
       dispatch(LoadMembersSuccess(users));
     } catch (error) {
@@ -52,7 +52,7 @@ class ChatBloc extends IFeatureBloc<IChatEvent, ChatState, AuthMapEvents> {
   }
 
   sendMessage(String messageBody) {
-    final userManager = DI.get<UserManager>();
+    final userManager = SL.get<UserManager>();
     final message = IChatMessage(
       body: messageBody,
       userId: userManager.user.id,

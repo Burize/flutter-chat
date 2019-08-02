@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/dependency.dart';
+import '../../../core/service_locator.dart';
 import '../../../core/navigation/navigator.dart';
 import '../../../core/navigation/routes.dart';
 import '../../../features/profileOverview/profileOverview.dart';
@@ -45,7 +45,7 @@ class Externals {
   ILogoutAuthContract _auth;
 
   Externals() {
-    _auth = DI.get<ILogoutAuthContract>();
+    _auth = SL.get<ILogoutAuthContract>();
   }
 
   Future<void> logout() async {
