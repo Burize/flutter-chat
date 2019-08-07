@@ -32,7 +32,7 @@ class ProfileOverviewBloc extends IFeatureBloc<IProfileEvents, ProfileState, Prf
 
       dispatch(ChangeNameSuccess());
     } catch (e) {
-      dispatch(ChangeNameFail(e));
+      dispatch(ChangeNameFail(e.toString()));
     }
   }
 
@@ -47,7 +47,7 @@ class ProfileOverviewBloc extends IFeatureBloc<IProfileEvents, ProfileState, Prf
 
       dispatch(ChangePhoneSuccess());
     } catch (e) {
-      dispatch(ChangePhoneFail(e));
+      dispatch(ChangePhoneFail(e.toString()));
     }
   }
 
@@ -64,7 +64,7 @@ class ProfileOverviewBloc extends IFeatureBloc<IProfileEvents, ProfileState, Prf
 
       dispatch(ChangeAvatarSuccess());
     } catch (e) {
-      dispatch(ChangeAvatarFail(e));
+      dispatch(ChangeAvatarFail(e.toString()));
     }
   }
 }

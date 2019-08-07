@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_chat/shared/utils/form.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/service_locator.dart';
@@ -66,7 +66,6 @@ class _AccountViewState extends State<AccountView> {
   onEditAccount(EAccountEditedFiled field) {
     final userManager = SL.get<UserManager>();
     final user = userManager.user;
-    final formKey = GlobalKey<FormBuilderState>();
 
     final form = formByType[field];
     final title = titleByType[field];
@@ -76,15 +75,15 @@ class _AccountViewState extends State<AccountView> {
       EAccountEditedFiled.name: onEditName,
     };
 
+    final formWidget = form(user);
     RoutesNavigator.routeToChildWidget(
         context,
         EditField(
           title: title,
-          editForm: form(formKey, user),
+          editForm: formWidget,
           onSave: () {
-            formKey.currentState.save();
-            if (formKey.currentState.validate()) {
-              final values = formKey.currentState.value;
+            if (formWidget.controller.validate()) {
+              final values = formWidget.controller.values;
               handlerByType[field](values);
               RoutesNavigator.pop(context);
             }
@@ -141,11 +140,9 @@ class _AccountViewState extends State<AccountView> {
   }
 }
 
-final formByType = {
-  EAccountEditedFiled.phone: (GlobalKey<FormBuilderState> formKey, User user) =>
-      EditPhoneForm(formKey: formKey, phone: user.phone),
-  EAccountEditedFiled.name: (GlobalKey<FormBuilderState> formKey, User user) =>
-      EditNameForm(formKey: formKey, firstname: user.firstName, secondName: user.secondName),
+final Map<EAccountEditedFiled, StatelessWidgetWithFormController Function(User)> formByType = {
+  EAccountEditedFiled.phone: (User user) => EditPhoneForm(phone: user.phone),
+  EAccountEditedFiled.name: (User user) => EditNameForm(firstName: user.firstName, secondName: user.secondName),
 };
 
 final titleByType = {

@@ -12,7 +12,12 @@ class IMainUserFields {
   final String phone;
   final String password;
 
-  IMainUserFields({@required this.firstName, @required this.secondName, @required this.phone, @required this.password});
+  IMainUserFields({
+    @required this.firstName,
+    @required this.secondName,
+    @required this.phone,
+    @required this.password,
+  });
 }
 
 @JsonSerializable(createFactory: true)

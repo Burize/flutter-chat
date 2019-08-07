@@ -1,5 +1,11 @@
 import '../../shared/models/message.dart';
 
+enum EConnectionStatus {
+  pending,
+  connected,
+  error,
+}
+
 enum EMessageType {
   allMessages,
   newMessage,

@@ -16,11 +16,16 @@ class ChatBloc extends IFeatureBloc<IChatEvent, ChatState, AuthMapEvents> {
   final AuthMapEvents _mapEvent = AuthMapEvents();
   AuthMapEvents get mapEvent => _mapEvent;
 
-  IChatMessageManagerContract messageManager;
+  IChatMessageManagerContract _messageManager;
 
   ChatBloc() {
-    messageManager = SL.get<IChatMessageManagerContract>();
-    messageManager.subscribe(_onReceiveMessage);
+    _messageManager = SL.get<IChatMessageManagerContract>();
+    _messageManager.subscribe(_onReceiveMessage);
+    _messageManager.onConnectionChange(_onChangeConnectionStatus);
+  }
+
+  void _onChangeConnectionStatus(EConnectionStatus status) {
+    dispatch(ChangeConnectionStatus(status));
   }
 
   Future<void> _onReceiveMessage(IMessageEvent event) async {
@@ -59,6 +64,6 @@ class ChatBloc extends IFeatureBloc<IChatEvent, ChatState, AuthMapEvents> {
       createdAt: new DateTime.now().millisecondsSinceEpoch,
     );
 
-    messageManager.sendMessage(message);
+    _messageManager.sendMessage(message);
   }
 }

@@ -59,7 +59,7 @@ class SetupState extends State<Setup> {
       await userManager.updateUser();
     } catch (e) {
       // when offline there is network error, but app is not need to react to it
-      print(e.toString());
+      print('update user on launch error: ${e.toString()}');
     }
   }
 }

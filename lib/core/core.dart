@@ -40,8 +40,10 @@ class Core {
 
   static Future<void> initializeLazyServices() async {
     final userManager = SL.get<UserManager>();
+    final socketmanager = SL.get<SocketManager>();
 
     await userManager.initialize();
+    await socketmanager.initialize();
   }
 
   static Future<void> clearDependencies() async {

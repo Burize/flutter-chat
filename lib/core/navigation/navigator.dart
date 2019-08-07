@@ -22,10 +22,10 @@ class RoutesNavigator {
     );
   }
 
-  static Future<void> routeToChildWidget(
-    BuildContext context,
-    Widget widget,
-  ) async {
+  static Future<void> routeToChildWidget(BuildContext context, Widget widget, {bool isCloseDrawer}) async {
+    if (isCloseDrawer != null && isCloseDrawer) {
+      pop(context);
+    }
     final r = MaterialPageRoute(builder: (_) => widget);
     Navigator.of(context).push(r);
   }

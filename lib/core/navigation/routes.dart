@@ -14,7 +14,7 @@ class Routes {
 
 class Route<T> {
   WidgetBuilder builder;
-  Route({WidgetBuilder this.builder});
+  Route({this.builder});
 }
 
 typedef TPassArgumentToRoute<T> = Route Function(T);

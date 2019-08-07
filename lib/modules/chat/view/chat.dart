@@ -11,7 +11,7 @@ class ChatMessagesView extends StatelessWidget {
       appBar: AppBar(
         title: Text('Messages'),
       ),
-      drawer: makeMainDrawer(context, 0),
+      drawer: makeMainDrawer(context, EDrawerRoutes.chat),
       body: _chatMessages.chatView(),
     );
   }

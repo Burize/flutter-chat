@@ -1,3 +1,5 @@
+import 'package:flutter_chat/services/socket/namespace.dart';
+
 import '../../../shared/bloc/events.dart';
 import '../../../shared/models/chat_member.dart';
 import '../../../shared/models/message.dart';
@@ -5,6 +7,7 @@ import '../../../shared/models/message.dart';
 abstract class IChatState {
   List<IChatMessage> messages;
   List<ChatMember> members;
+  EConnectionStatus connectionStatus;
 }
 
 abstract class IChatEvent<P> extends IAction<P> {
@@ -17,6 +20,10 @@ class SendedMessage extends IChatEvent<IChatMessage> {
 
 class NewMessage extends IChatEvent<IChatMessage> {
   NewMessage(IChatMessage message) : super(message);
+}
+
+class ChangeConnectionStatus extends IChatEvent<EConnectionStatus> {
+  ChangeConnectionStatus(EConnectionStatus status) : super(status);
 }
 
 class NewMessages extends IChatEvent<List<IChatMessage>> {

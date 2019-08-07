@@ -12,7 +12,6 @@ abstract class IAction<P> {
 abstract class IFeatureBloc<E, S, M extends IMapEvent<S, E>> extends Bloc<E, S> {
   S get initialState;
   M get mapEvent;
-  // void handleEvent(E event);
   BuildContext context;
 
   final PublishSubject<E> events = PublishSubject<E>();

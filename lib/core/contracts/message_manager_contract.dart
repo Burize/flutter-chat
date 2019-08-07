@@ -18,6 +18,10 @@ class MessageManagerContract with chatContract.IChatMessageManagerContract {
     return _messageManager.subscribe(handler);
   }
 
+  chatContract.TUnsubscribe onConnectionChange(chatContract.TConnectionStatusSubscription handler) {
+    return _messageManager.onConnectionChange(handler);
+  }
+
   void sendMessage(IChatMessage message) {
     return _messageManager.sendMessage(message);
   }
