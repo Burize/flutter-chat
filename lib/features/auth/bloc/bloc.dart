@@ -6,7 +6,6 @@ import './state_map_event.dart';
 import '../../../core/core.dart';
 import '../../../core/service_locator.dart';
 import '../../../services/api/api.dart';
-import '../../../services/api/errors/errors.dart';
 import '../../../services/storage/storage.dart';
 import '../../../services/user/user_manager.dart';
 import '../../../shared/bloc/events.dart';
@@ -28,12 +27,18 @@ class AuthBloc extends IFeatureBloc<IAuthEvents, AuthState, AuthMapEvents> {
     try {
       dispatch(Authenticate());
       final api = SL.get<Api>();
-      final user = await api.user.authenticate(phone, password);
+      final storage = SL.get<Storage>();
+
+      final token = await api.user.authenticate(phone, password);
+      await storage.setAuthToken(token);
+
+      final user = await api.user.loadAcount();
       await _saveUser(user);
+
       dispatch(AuthenticateSuccess());
       return true;
     } catch (e) {
-      dispatch(AuthenticateFail(e is ApiError ? e.message : e.toString()));
+      dispatch(AuthenticateFail(e.toString()));
       return false;
     }
   }
@@ -42,18 +47,23 @@ class AuthBloc extends IFeatureBloc<IAuthEvents, AuthState, AuthMapEvents> {
     try {
       dispatch(Registrate());
       final api = SL.get<Api>();
-      final user = await api.user.registration(IMainUserFields(
+      final storage = SL.get<Storage>();
+
+      final token = await api.user.registration(IMainUserFields(
         firstName: firstName,
         secondName: secondName,
         phone: phone,
         password: password,
       ));
+      await storage.setAuthToken(token);
 
+      final user = await api.user.loadAcount();
       await _saveUser(user);
+
       dispatch(RegistrateSuccess());
       return true;
     } catch (e) {
-      dispatch(RegistrateFail(e is ApiError ? e.message : e.toString()));
+      dispatch(RegistrateFail(e.toString()));
       return false;
     }
   }
@@ -68,6 +78,7 @@ class AuthBloc extends IFeatureBloc<IAuthEvents, AuthState, AuthMapEvents> {
     Storage storage = SL.get<Storage>();
     await storage.removeUser();
     await storage.removeIsAuthotized();
+    await storage.removeAuthToken();
     await Core.clearDependencies();
   }
 }

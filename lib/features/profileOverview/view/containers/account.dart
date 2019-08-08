@@ -110,13 +110,13 @@ class _AccountViewState extends State<AccountView> {
             child: Wrap(
               children: <Widget>[
                 ListTile(
-                  title: new Text('From camera'),
+                  title: Text('From camera'),
                   onTap: () {
                     getImage(context, ImageSource.camera);
                   },
                 ),
                 ListTile(
-                  title: new Text('From gallery'),
+                  title: Text('From gallery'),
                   onTap: () {
                     getImage(context, ImageSource.gallery);
                   },

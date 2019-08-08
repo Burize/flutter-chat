@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../../shared/utils/string.dart';
+import '../../../../shared/view/styles.dart';
 import '../../bloc/bloc.dart';
 import '../../bloc/namespace.dart';
 
@@ -15,7 +16,7 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  final GlobalKey<FormBuilderState> _formKey = new GlobalKey<FormBuilderState>();
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
   @override
   void initState() {
@@ -64,11 +65,10 @@ class _SignUpFormState extends State<SignUpForm> {
       padding: EdgeInsets.all(20),
       child: FormBuilder(
           key: _formKey,
-          // autovalidate: true,
           child: ListView(children: [
             FormBuilderTextField(
               attribute: 'firstName',
-              decoration: new InputDecoration(hintText: 'Henry', labelText: 'First name'),
+              decoration: InputDecoration(hintText: 'Henry', labelText: 'First name'),
               validators: [
                 FormBuilderValidators.required(),
                 FormBuilderValidators.maxLength(14),
@@ -77,7 +77,7 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             FormBuilderTextField(
               attribute: 'secondName',
-              decoration: new InputDecoration(hintText: 'Dorsett', labelText: 'Second name'),
+              decoration: InputDecoration(hintText: 'Dorsett', labelText: 'Second name'),
               validators: [
                 FormBuilderValidators.required(),
                 FormBuilderValidators.maxLength(14),
@@ -86,7 +86,7 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             FormBuilderTextField(
               attribute: 'phone',
-              decoration: new InputDecoration(hintText: 'Phone number', labelText: '+79138134422'),
+              decoration: InputDecoration(hintText: 'Phone number', labelText: formPlaceholder),
               validators: [
                 FormBuilderValidators.required(),
                 FormBuilderValidators.pattern(phonePattern, errorText: 'wrong phone format'),
@@ -100,28 +100,20 @@ class _SignUpFormState extends State<SignUpForm> {
                 FormBuilderValidators.minLength(4),
                 FormBuilderValidators.maxLength(12)
               ],
-              decoration: new InputDecoration(hintText: 'Password', labelText: 'Enter your password'),
+              decoration: InputDecoration(hintText: 'Password', labelText: 'Enter your password'),
             ),
             Container(
               width: screenSize.width,
-              child: new RaisedButton(
-                child: new Text(
+              child: RaisedButton(
+                child: Text(
                   'Login',
-                  style: new TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white),
                 ),
                 onPressed: _onSubmit,
-                color: Colors.blue,
+                color: primaryColor,
               ),
-              margin: new EdgeInsets.only(top: 20.0),
+              margin: EdgeInsets.only(top: 20.0),
             ),
-            // BlocBuilder<IAuthEvents, AuthState>(
-            //     bloc: widget.bloc,
-            //     builder: (
-            //       BuildContext context,
-            //       AuthState state,
-            //     ) {
-            //       return state.registrating.error != null ? Text(state.registrating.error) : Empty();
-            //     }),
           ])),
     );
   }

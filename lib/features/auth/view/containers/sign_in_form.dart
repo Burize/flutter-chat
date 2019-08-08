@@ -5,6 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../../shared/utils/string.dart';
 import '../../../../shared/view/components/empty.dart';
+import '../../../../shared/view/styles.dart';
 import '../../bloc/bloc.dart';
 import '../../bloc/namespace.dart';
 import '../../bloc/state.dart';
@@ -19,7 +20,7 @@ class SignInForm extends StatefulWidget {
 }
 
 class _SignInFormState extends State<SignInForm> {
-  final GlobalKey<FormBuilderState> _formKey = new GlobalKey<FormBuilderState>();
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
   @override
   void initState() {
@@ -67,7 +68,7 @@ class _SignInFormState extends State<SignInForm> {
           child: ListView(children: [
             FormBuilderTextField(
               attribute: 'phone',
-              decoration: new InputDecoration(hintText: '+79138133333', labelText: 'Phone number'),
+              decoration: InputDecoration(hintText: formPlaceholder, labelText: 'Phone number'),
               validators: [
                 FormBuilderValidators.required(),
                 FormBuilderValidators.pattern(phonePattern, errorText: 'wrong phone format'),
@@ -81,19 +82,19 @@ class _SignInFormState extends State<SignInForm> {
                 FormBuilderValidators.minLength(4),
                 FormBuilderValidators.maxLength(12)
               ],
-              decoration: new InputDecoration(hintText: 'Password', labelText: 'Enter your password'),
+              decoration: InputDecoration(hintText: 'Password', labelText: 'Enter your password'),
             ),
             Container(
               width: screenSize.width,
-              child: new RaisedButton(
-                child: new Text(
+              child: RaisedButton(
+                child: Text(
                   'Sign In',
-                  style: new TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white),
                 ),
                 onPressed: _onSubmit,
-                color: Colors.blue,
+                color: primaryColor,
               ),
-              margin: new EdgeInsets.only(top: 20.0),
+              margin: EdgeInsets.only(top: 20.0),
             ),
             BlocBuilder<IAuthEvents, AuthState>(
                 bloc: widget.bloc,

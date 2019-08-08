@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/models/user.dart';
+import '../../../../shared/view/components/empty.dart';
 
 final textStyle = TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500);
 
@@ -19,30 +20,40 @@ class Overview extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            user.avatar != null
-                ? CircleAvatar(
-                    backgroundImage: user.getAvatar(),
-                    radius: 48,
-                  )
-                : CircleAvatar(
-                    child: Text(
-                      'DK',
+            CircleAvatar(
+              backgroundColor: Colors.grey,
+              foregroundColor: Colors.white,
+              child: user.avatar == null
+                  ? Text(
+                      user.acronym,
                       style: TextStyle(fontSize: 32),
-                    ),
-                    radius: 48,
+                    )
+                  : Empty(),
+              backgroundImage: user.avatar == null ? null : user.getAvatar(),
+              radius: 48,
+            ),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 8, left: 12),
+                    child: Column(children: [
+                      Text(
+                        user.firstName,
+                        style: textStyle,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        user.secondName,
+                        style: textStyle,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ]),
                   ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 8, left: 12),
-                  child: Column(children: [
-                    Text(user.firstName, style: textStyle),
-                    Text(user.secondName, style: textStyle),
-                  ]),
-                ),
-              ],
-            )
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import '../../../core/core.dart';
 import '../../../core/navigation/navigator.dart';
 import '../../../core/navigation/routes.dart';
 import '../../../features/auth/auth.dart';
+import '../../../shared/view/styles.dart';
 
 class AuthenticateView extends StatelessWidget {
   final Auth _auth = Auth();
@@ -15,6 +16,8 @@ class AuthenticateView extends StatelessWidget {
         appBar: AppBar(
           title: Text('Login'),
           bottom: TabBar(
+            indicatorWeight: 3,
+            indicatorColor: secondaryColor,
             tabs: [
               Tab(text: 'Sign in'),
               Tab(text: 'Rigistration'),

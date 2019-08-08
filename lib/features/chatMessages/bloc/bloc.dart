@@ -52,7 +52,7 @@ class ChatBloc extends IFeatureBloc<IChatEvent, ChatState, AuthMapEvents> {
       final users = await api.chatMember.loadUsers(ids);
       dispatch(LoadMembersSuccess(users));
     } catch (error) {
-      dispatch(LoadMembersFail(error));
+      dispatch(LoadMembersFail(error.toString()));
     }
   }
 
@@ -61,7 +61,7 @@ class ChatBloc extends IFeatureBloc<IChatEvent, ChatState, AuthMapEvents> {
     final message = IChatMessage(
       body: messageBody,
       userId: userManager.user.id,
-      createdAt: new DateTime.now().millisecondsSinceEpoch,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
     );
 
     _messageManager.sendMessage(message);

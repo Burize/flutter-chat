@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'setup.dart';
+import 'shared/view/styles.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       home: Setup(),
       theme: ThemeData(
-        primaryColor: Color.fromRGBO(52, 45, 62, 1),
+        primaryColor: primaryColor,
       ),
     );
   }

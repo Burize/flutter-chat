@@ -25,7 +25,7 @@ class EditPhoneForm extends StatelessWidgetWithFormController {
             FormBuilderTextField(
               initialValue: _phone,
               attribute: 'phone',
-              decoration: new InputDecoration(hintText: 'Phone number', labelText: '+7 913 813 33 33'),
+              decoration: InputDecoration(hintText: 'Phone number', labelText: formPlaceholder),
               validators: [
                 FormBuilderValidators.required(),
                 FormBuilderValidators.pattern(phonePattern, errorText: 'wrong phone format'),

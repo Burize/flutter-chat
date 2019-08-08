@@ -14,7 +14,6 @@ class AuthMapEvents extends IMapEvent<ChatState, IChatEvent> {
           return;
         }
 
-        // TODO: CHECK THIS
         if (e is NewMessage || e is SendedMessage) {
           IChatMessage newMessage = e.payload;
           if (next.messages.contains((IChatMessage message) => message.id == newMessage.id)) {

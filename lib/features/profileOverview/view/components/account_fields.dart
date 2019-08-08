@@ -36,7 +36,7 @@ class AccountFields extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    title: Text(user.name),
+                    title: Text(user.name, overflow: TextOverflow.ellipsis),
                     subtitle: Text('Имя пользователя'),
                     onTap: () {
                       if (!isLoading) {

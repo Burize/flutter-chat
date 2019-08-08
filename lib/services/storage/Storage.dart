@@ -9,6 +9,7 @@ typedef T TReadyStorageCallback<T>();
 final keys = {
   'user': 'user',
   'isAuthorized': 'auth.isAuthorized',
+  'authToken': 'auth.token',
 };
 
 class Storage {
@@ -36,6 +37,11 @@ class Storage {
     await _storage.setString(keys['user'], jsonEncode(user.toJson()));
   }
 
+  Future<void> removeUser() async {
+    await _initializing;
+    await _storage.remove(keys['user']);
+  }
+
   Future<void> removeIsAuthotized() async {
     await _initializing;
     await _storage.remove(keys['isAuthorized']);
@@ -52,8 +58,18 @@ class Storage {
     return isAuthorized ?? false;
   }
 
-  Future<void> removeUser() async {
+  Future<void> removeAuthToken() async {
     await _initializing;
-    await _storage.remove(keys['user']);
+    await _storage.remove(keys['authToken']);
+  }
+
+  Future<void> setAuthToken(String token) async {
+    await _initializing;
+    await _storage.setString(keys['authToken'], token);
+  }
+
+  Future<String> getAuthToken() async {
+    await _initializing;
+    return _storage.getString(keys['authToken']);
   }
 }

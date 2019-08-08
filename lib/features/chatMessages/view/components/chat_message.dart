@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../shared/view/components/empty.dart';
 
@@ -14,7 +15,6 @@ class ChatMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createdAtDate = DateTime.fromMillisecondsSinceEpoch(createdAt);
     return Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: isOwnMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -23,34 +23,69 @@ class ChatMessage extends StatelessWidget {
               ? CircleAvatar(
                   backgroundColor: Color.fromRGBO(0, 0, 0, 0),
                 )
-              : getMemberAvatar(),
-          Card(
-            child: Padding(
-              padding: EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  isOwnMessage ? Empty() : Text(userName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 4,
-                    ),
-                    child: Text(message),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text('${createdAtDate.hour}:${createdAtDate.minute}'),
-                    ],
-                  )
-                ],
+              : _getMemberAvatar(),
+          Flexible(
+            child: Card(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: 100,
+                ),
+                child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              isOwnMessage
+                                  ? Empty()
+                                  : Text(userName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                              Text(message),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: Text(
+                            _getCreatedDate(createdAt),
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          ),
+                        )
+                      ],
+                    )),
               ),
             ),
-          )
+          ),
         ]);
   }
 
-  Widget getMemberAvatar() {
-    return avatar != null ? CircleAvatar(backgroundImage: avatar) : CircleAvatar(child: Text(userAcronym));
+  String _getCreatedDate(int createdAt) {
+    final createdAtDate = DateTime.fromMillisecondsSinceEpoch(createdAt);
+    final now = DateTime.now();
+
+    final difference = now.difference(createdAtDate);
+
+    if (difference.inDays > 30) {
+      return DateFormat('hh:mm dd MM').format(createdAtDate);
+    }
+
+    if (difference.inDays > 7) {
+      return DateFormat('hh:mm dd MMM').format(createdAtDate);
+    }
+
+    if (difference.inDays > 0) {
+      return DateFormat('hh:mm EE').format(createdAtDate);
+    }
+
+    return DateFormat('hh:mm').format(createdAtDate);
+  }
+
+  Widget _getMemberAvatar() {
+    return avatar != null
+        ? CircleAvatar(backgroundColor: Colors.grey, foregroundColor: Colors.white, backgroundImage: avatar)
+        : CircleAvatar(backgroundColor: Colors.grey, foregroundColor: Colors.white, child: Text(userAcronym));
   }
 }

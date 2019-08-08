@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat/shared/view/components/empty.dart';
 
 import '../../models/user.dart';
 
@@ -13,31 +14,36 @@ class UserProfile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          user.avatar != null
-              ? CircleAvatar(
-                  backgroundImage: user.getAvatar(),
-                  radius: 40,
-                )
-              : CircleAvatar(
-                  child: Text(
-                    'DK',
+          CircleAvatar(
+            backgroundColor: Colors.grey,
+            foregroundColor: Colors.white,
+            child: user.avatar == null
+                ? Text(
+                    user.acronym,
                     style: TextStyle(fontSize: 24),
+                  )
+                : Empty(),
+            backgroundImage: user.avatar == null ? null : user.getAvatar(),
+            radius: 40,
+          ),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 8, left: 12),
+                  child: Text(
+                    user.name,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  radius: 40,
                 ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 8, left: 12),
-                child: Text(user.name),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 8, left: 12),
-                child: Text(user.phone),
-              ),
-            ],
-          )
+                Padding(
+                  padding: EdgeInsets.only(top: 8, left: 12),
+                  child: Text(user.phone),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

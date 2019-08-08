@@ -42,8 +42,8 @@ class UserManager {
       throw Exception('Try update nonexistent user');
     }
 
-    User lastUser = await _api.user.loadUser(_user.id);
-    await saveUser(lastUser);
-    _user = lastUser;
+    User user = await _api.user.loadAcount();
+    await saveUser(user);
+    _user = user;
   }
 }

@@ -10,30 +10,41 @@ class User extends BaseApi {
     _httpActions = httpActions;
   }
 
-  Future<UserModel.User> authenticate(String phone, String password) async {
+  Future<String> authenticate(String phone, String password) async {
     final response = await _httpActions.post(IMethodArgs(
       url: '/auth',
       data: convertAuthFieldsToResponse(phone, password),
+      isNotProtected: true,
     ));
 
     throwExceptionIfInvalidStatusCode(response);
-    return convertUserFromResponse(response.body);
+    return response.body; // token
   }
 
-  Future<UserModel.User> registration(UserModel.IMainUserFields user) async {
+  Future<String> registration(UserModel.IMainUserFields user) async {
     final response = await _httpActions.post(IMethodArgs(
-      url: '/user/',
+      url: '/user',
       data: convertUserToResponse(user),
+      isNotProtected: true,
     ));
+
+    throwExceptionIfInvalidStatusCode(response);
+    return response.body; // token
+  }
+
+  Future<UserModel.User> loadAcount() async {
+    final response = await _httpActions.get(
+      IMethodArgs(
+        url: '/user/me',
+      ),
+    );
 
     throwExceptionIfInvalidStatusCode(response);
     return convertUserFromResponse(response.body);
   }
 
-  Future<UserModel.User> loadUser(String userId) async {
-    final response = await _httpActions.get(IMethodArgs(
-      url: '/user/$userId', // TODO MAKE VIA TOKEN
-    ));
+  Future<UserModel.User> loadUserById(String userId) async {
+    final response = await _httpActions.get(IMethodArgs(url: '/user/$userId'));
 
     throwExceptionIfInvalidStatusCode(response);
     return convertUserFromResponse(response.body);
@@ -41,7 +52,7 @@ class User extends BaseApi {
 
   Future<UserModel.User> updateUser(String userId, {String firstName, String secondName, String phone}) async {
     final response = await _httpActions.patch(IMethodArgs(
-      url: '/user/$userId', // TODO MAKE VIA TOKEN,
+      url: '/user',
       data: convertUpdateUserToResponse(firstName: firstName, secondName: secondName, phone: phone),
     ));
 
@@ -51,7 +62,7 @@ class User extends BaseApi {
 
   Future<String> updateUserAvatar(String userId, String avatar) async {
     final response = await _httpActions.patch(IMethodArgs(
-      url: '/user/avatar/$userId', // TODO MAKE VIA TOKEN,
+      url: '/user/avatar',
       data: {'avatar': avatar},
     ));
 

@@ -38,7 +38,10 @@ class HttpActions {
   Future<IRequest> _makeRequest<R>(String method, IMethodArgs args) async {
     final resGetBaseUrl = _options.getApiHost();
 
+    final privateHeaders = args.isNotProtected ? Map<String, String>() : await _options.getPrivateHeaders();
+
     final resHeaders = Map<String, String>.from(args.headers != null ? args.headers : Map<String, String>())
+      ..addAll(privateHeaders)
       ..addAll(_options.headers);
 
     final body = args.data != null ? jsonEncode(args.data) : '';
@@ -54,8 +57,9 @@ typedef T TFunction<T>();
 class IOptions {
   final Map<String, String> headers;
   final TFunction<String> getApiHost;
+  final TGetPrivateHeaders getPrivateHeaders;
 
-  IOptions({this.headers, this.getApiHost});
+  IOptions({this.headers, this.getApiHost, this.getPrivateHeaders});
 }
 
 class IResponse {
@@ -79,9 +83,9 @@ class IMethodArgs {
   final String url;
   final Map<String, dynamic> data;
   final Map<String, String> headers;
-  final bool isSigned;
+  final bool isNotProtected;
 
-  IMethodArgs({this.url = '', this.data, this.headers = const {}, this.isSigned = false});
+  IMethodArgs({this.url = '', this.data, this.headers = const {}, this.isNotProtected = false});
 }
 
 class Response {

@@ -24,18 +24,21 @@ class _MessageInputState extends State<MessageInput> {
 
   @override
   Widget build(BuildContext context) {
+    final isDisabled = widget.isDisabled || _isEmpty;
     return TextField(
       controller: inputController,
       onEditingComplete: _onSubmit,
       onChanged: _onChangeMessage,
+      minLines: 1,
+      maxLines: 3,
+      keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
           hintText: "Enter new message",
-          suffixIcon: widget.isDisabled || _isEmpty
-              ? Empty()
-              : IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: _onSubmit,
-                )),
+          suffixIcon: IconButton(
+            icon: Icon(Icons.send),
+            onPressed: _onSubmit,
+            color: isDisabled ? Colors.grey : Colors.black,
+          )),
     );
   }
 

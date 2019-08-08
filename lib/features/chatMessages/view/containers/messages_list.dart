@@ -1,11 +1,12 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_chat/services/socket/namespace.dart';
-import 'package:flutter_chat/shared/view/components/spinner.dart';
 
 import '../../../../core/service_locator.dart';
+import '../../../../services/socket/namespace.dart';
 import '../../../../services/user/user_manager.dart';
+import '../../../../shared/view/components/empty.dart';
+import '../../../../shared/view/components/spinner.dart';
 import '../../bloc/bloc.dart';
 import '../../bloc/namespace.dart';
 import '../../bloc/state.dart';
@@ -62,7 +63,7 @@ class _MessageListState extends State<MessagesList> {
                 children: <Widget>[
                   Expanded(
                       child: Container(
-                    child: state.connectionStatus != EConnectionStatus.pending
+                    child: state.connectionStatus == EConnectionStatus.connected
                         ? ListView(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
@@ -85,7 +86,16 @@ class _MessageListState extends State<MessagesList> {
                         : Stack(
                             alignment: AlignmentDirectional.center,
                             children: [
-                              Spinner(diameter: 24),
+                              Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: state.connectionStatus == EConnectionStatus.error
+                                      ? [
+                                          Spinner(diameter: 24),
+                                          SizedBox(height: 8),
+                                          Text('There is some errors with network.'),
+                                          Text('Trying to reconnect ...'),
+                                        ]
+                                      : [Spinner(diameter: 24)])
                             ],
                           ),
                   )),

@@ -6,14 +6,14 @@ import '../http_actions.dart';
 class BaseApi {
   void throwExceptionIfInvalidStatusCode(Response response) {
     if (response.statusCode >= 400 && response.statusCode < 500) {
-      throw new ApiError(
+      throw ApiError(
         statusCode: response.statusCode,
         message: response.body,
       );
     }
 
     if (response.statusCode >= 500) {
-      throw new ApiError(
+      throw ApiError(
         statusCode: response.statusCode,
         message: 'Server is not responding! Please try again later',
       );
