@@ -16,3 +16,7 @@ It is an flutter application, so first of all you need to [install it](https://f
 After successful installation, you can run project by `flutter run` command.
 
 Then, you need deploy [server](https://github.com/Burize/chat-backend) for authentication and receiving message.
+
+
+> The project uses [json_annotation](https://pub.dev/packages/json_annotation) and [json_serializable](https://pub.dev/packages/json_serializable) libraries to create code for JSON serialization and deserialization.
+>For updating generated code use `flutter pub run build_runner build` command.
