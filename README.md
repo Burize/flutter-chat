@@ -1,16 +1,18 @@
-# flutter_chat
+# Mobile chat
 
-A new Flutter project.
+Mobile chat written on [Flutter](https://flutter.dev/).
+> There are not separate user dialogs at that moment - all users are in the same dialog(room).
+
+## Features
+- SignIn/SignUp by login(phone number) and password;
+- Editing user profile: name, phone, avatar;
+- Sending/receiving message between user via sockets;
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+It is an flutter application, so first of all you need to [install it](https://flutter.dev/docs/get-started).
+> No need to install emulators, you can run the project on a real device connected to a computer.
 
-A few resources to get you started if this is your first Flutter project:
+After successful installation, you can run project by `flutter run` command.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Then, you need deploy [server](https://github.com/Burize/chat-backend) for authentication and receiving message.
