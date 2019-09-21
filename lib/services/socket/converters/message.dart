@@ -60,10 +60,10 @@ String convertMessageToEvent(EMessageType type, IChatMessage message) {
     EMessageType.allMessages: 'all_messages',
     EMessageType.newMessage: 'new_message',
   };
-  return jsonEncode({'type': eventByType[type], 'payload': convertMessageToResponse(message)});
+  return jsonEncode({'type': eventByType[type], 'payload': convertMessageToRequest(message)});
 }
 
-Map<String, dynamic> convertMessageToResponse(IChatMessage message) => {
+Map<String, dynamic> convertMessageToRequest(IChatMessage message) => {
       'id': message.id,
       'userId': message.userId,
       'body': message.body,

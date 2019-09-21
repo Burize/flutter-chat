@@ -57,7 +57,7 @@ class ProfileOverviewBloc extends IFeatureBloc<IProfileEvents, ProfileState, Prf
       final api = SL.get<Api>();
       final userManager = SL.get<UserManager>();
 
-      final avatarPath = await api.user.updateUserAvatar(userManager.user.id, avatar);
+      final avatarPath = await api.user.updateUserAvatar(avatar);
       final user = userManager.user;
       user.avatar = avatarPath;
       await userManager.saveUser(user);

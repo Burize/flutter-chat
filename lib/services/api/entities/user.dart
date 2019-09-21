@@ -21,10 +21,10 @@ class User extends BaseApi {
     return response.body; // token
   }
 
-  Future<String> registration(UserModel.IMainUserFields user) async {
+  Future<String> registration(UserModel.IRegistrationUserFields user) async {
     final response = await _httpActions.post(IMethodArgs(
       url: '/user',
-      data: convertUserToResponse(user),
+      data: convertRegistrationFieldsToResponse(user),
       isNotProtected: true,
     ));
 
@@ -60,7 +60,7 @@ class User extends BaseApi {
     return convertUserFromResponse(response.body);
   }
 
-  Future<String> updateUserAvatar(String userId, String avatar) async {
+  Future<String> updateUserAvatar(String avatar) async {
     final response = await _httpActions.patch(IMethodArgs(
       url: '/user/avatar',
       data: {'avatar': avatar},

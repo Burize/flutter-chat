@@ -30,14 +30,14 @@ class AccountFields extends StatelessWidget {
                 tiles: [
                   ListTile(
                     title: Text(user.phone),
-                    subtitle: Text('Номер телефона'),
+                    subtitle: Text('Phone number'),
                     onTap: () {
                       onEdit(EAccountEditedFiled.phone);
                     },
                   ),
                   ListTile(
                     title: Text(user.name, overflow: TextOverflow.ellipsis),
-                    subtitle: Text('Имя пользователя'),
+                    subtitle: Text('User name'),
                     onTap: () {
                       if (!isLoading) {
                         onEdit(EAccountEditedFiled.name);

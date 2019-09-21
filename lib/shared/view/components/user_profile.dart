@@ -3,6 +3,8 @@ import 'package:flutter_chat/shared/view/components/empty.dart';
 
 import '../../models/user.dart';
 
+final textStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white);
+
 class UserProfile extends StatelessWidget {
   final User user;
 
@@ -31,15 +33,19 @@ class UserProfile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 8, left: 12),
+                  padding: EdgeInsets.only(top: 8, left: 20),
                   child: Text(
                     user.name,
+                    style: textStyle,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 8, left: 12),
-                  child: Text(user.phone),
+                  padding: EdgeInsets.only(top: 8, left: 20),
+                  child: Text(
+                    user.phone,
+                    style: textStyle,
+                  ),
                 ),
               ],
             ),

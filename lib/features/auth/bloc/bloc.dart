@@ -49,7 +49,7 @@ class AuthBloc extends IFeatureBloc<IAuthEvents, AuthState, AuthMapEvents> {
       final api = SL.get<Api>();
       final storage = SL.get<Storage>();
 
-      final token = await api.user.registration(IMainUserFields(
+      final token = await api.user.registration(IRegistrationUserFields(
         firstName: firstName,
         secondName: secondName,
         phone: phone,

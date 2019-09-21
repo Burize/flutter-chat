@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import '../../../shared/models/user.dart';
 
-Map<String, dynamic> convertUserToResponse(IMainUserFields user) => {
+Map<String, dynamic> convertRegistrationFieldsToResponse(IRegistrationUserFields user) => {
       'firstName': user.firstName,
       'secondName': user.secondName,
       'phone': user.phone,

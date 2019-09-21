@@ -21,7 +21,7 @@ class ProfileView extends StatelessWidget {
             child: Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text('Выйти'),
+                child: Text('Logout'),
               ),
             ),
             onTap: () {

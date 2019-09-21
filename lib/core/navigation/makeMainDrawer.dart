@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat/shared/view/styles.dart';
 
 import '../../services/user/user_manager.dart';
 import '../../shared/view/components/user_profile.dart';
@@ -21,6 +22,7 @@ Drawer makeMainDrawer(BuildContext context, EDrawerRoutes activeRoot) {
       child: Column(
     children: [
       Container(
+        color: primaryColor,
         padding: EdgeInsets.only(top: 16),
         child: Padding(
           padding: EdgeInsets.all(16),

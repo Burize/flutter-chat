@@ -6,13 +6,13 @@ import '../utils/api_path.dart';
 
 part 'user.g.dart';
 
-class IMainUserFields {
+class IRegistrationUserFields {
   final String firstName;
   final String secondName;
   final String phone;
   final String password;
 
-  IMainUserFields({
+  IRegistrationUserFields({
     @required this.firstName,
     @required this.secondName,
     @required this.phone,
@@ -21,8 +21,11 @@ class IMainUserFields {
 }
 
 @JsonSerializable(createFactory: true)
-class User extends IMainUserFields {
+class User {
   final String id;
+  final String firstName;
+  final String secondName;
+  final String phone;
   String avatar;
 
   String get name => '$firstName $secondName';
@@ -30,12 +33,11 @@ class User extends IMainUserFields {
 
   User({
     @required this.id,
-    @required String firstName,
-    @required String secondName,
-    @required String phone,
-    @required String password,
+    @required this.firstName,
+    @required this.secondName,
+    @required this.phone,
     this.avatar,
-  }) : super(firstName: firstName, secondName: secondName, phone: phone, password: password);
+  });
 
   ImageProvider getAvatar() {
     if (avatar == null) {

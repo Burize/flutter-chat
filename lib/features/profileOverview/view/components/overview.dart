@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../shared/view/styles.dart';
 import '../../../../shared/models/user.dart';
 import '../../../../shared/view/components/empty.dart';
 
@@ -13,7 +14,7 @@ class Overview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromRGBO(52, 45, 62, 1),
+      color: primaryColor,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 12),
         child: Row(

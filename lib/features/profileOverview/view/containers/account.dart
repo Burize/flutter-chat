@@ -49,8 +49,8 @@ class _AccountViewState extends State<AccountView> {
                   isLoading: isDisableEditing,
                   additionalFields: [
                     ListTile(
-                      title: Text('Фото пользователя'),
-                      subtitle: Text('Нажмите, чтобы изменить фото пользователя'),
+                      title: Text('User avatar'),
+                      subtitle: Text('Press to change avatar'),
                       onTap: () {
                         changeAvatar(context);
                       },
