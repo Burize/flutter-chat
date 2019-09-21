@@ -3,6 +3,8 @@
 Mobile chat written on [Flutter](https://flutter.dev/).
 > There are not separate user dialogs at that moment - all users are in the same dialog(room).
 
+> Also, there is [version](https://github.com/Burize/PWA-RxJS-chat) of this chat written on ReactJS.
+
 ## Features
 - SignIn/SignUp by login(phone number) and password;
 - Editing user profile: name, phone, avatar;
